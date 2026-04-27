@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Voting Companion</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Fluid Animated Background -->
+    <div class="bg-animation"></div>
+
+    <main id="app-container">
+        
+        <!-- Screen 1: Landing Page -->
+        <section id="landing-screen" class="active">
+            <div class="brand-badge">
+                <span class="dot"></span>
+                AI Decision Companion
+            </div>
+            <h1 class="text-gradient">Your Personal Voting Companion</h1>
+            <p class="subtitle">Understand your voting journey in 2 minutes. Clear, actionable, and personalized guidance.</p>
+            <button id="btn-start" class="btn-primary">
+                Start My Journey
+            </button>
+        </section>
+
+        <!-- Screen 2: User Profiling (Dynamic) -->
+        <section id="profiling-screen">
+            <div class="glass-panel question-card">
+                <div id="progress-bar-container">
+                    <div id="progress-bar"></div>
+                </div>
+                <div id="question-container">
+                    <h2 id="question-text" class="question-text"></h2>
+                    <div id="options-grid" class="options-grid">
+                        <!-- Options injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 3 & 6: Personalized Dashboard -->
+        <section id="dashboard-screen">
+            <div class="dashboard-header">
+                <h2 class="text-gradient">Your Personalized Dashboard</h2>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Readiness Score & Checklist -->
+                <div class="glass-panel dashboard-card">
+                    <h3>Readiness Score</h3>
+                    <div class="score-display">
+                        <div id="score-circle" class="score-circle">
+                            <span id="score-text">0%</span>
+                        </div>
+                    </div>
+                    <ul id="checklist" class="checklist">
+                        <!-- Checklist injected by JS -->
+                    </ul>
+                </div>
+
+                <!-- Missing Requirements -->
+                <div class="glass-panel dashboard-card alert-card">
+                    <h3><span class="icon">⚠️</span> Attention Needed</h3>
+                    <ul id="missing-items" class="missing-items">
+                        <!-- Missing items injected by JS -->
+                    </ul>
+                </div>
+
+                <!-- Timeline -->
+                <div class="glass-panel dashboard-card timeline-card">
+                    <h3><span class="icon">📅</span> Your Timeline</h3>
+                    <div class="timeline">
+                        <div class="timeline-item" id="timeline-today">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>Today</h4>
+                                <p id="action-today">Register to vote</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item" id="timeline-before">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>Before Election</h4>
+                                <p id="action-before">Verify your polling location</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item" id="timeline-day">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>Election Day</h4>
+                                <p id="action-day">Bring your ID and vote!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mock Integrations (Screen 7) -->
+                <div class="glass-panel dashboard-card tools-card">
+                    <h3><span class="icon">🛠️</span> Quick Tools</h3>
+                    <div class="tools-grid">
+                        <button class="tool-btn" onclick="alert('Simulated: Opening Google Maps for Polling Booths near you...')">
+                            <span class="tool-icon">📍</span> Find Booth
+                        </button>
+                        <button class="tool-btn" onclick="alert('Simulated: Added Election Day reminder to Google Calendar.')">
+                            <span class="tool-icon">📅</span> Add Reminder
+                        </button>
+                        <button class="tool-btn" onclick="alert('Simulated: Translating page to Spanish...')">
+                            <span class="tool-icon">🌐</span> Translate
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-actions mt-4">
+                <button id="btn-simulator" class="btn-primary">Decision Simulator</button>
+                <button id="btn-ai-companion" class="btn-primary" style="margin-left: 10px;">Ask AI Companion</button>
+            </div>
+        </section>
+
+        <!-- Screen 4: AI Companion -->
+        <section id="ai-screen">
+            <div class="glass-panel ai-card">
+                <div class="ai-header">
+                    <h2>🤖 AI Voting Assistant</h2>
+                    <button class="btn-close" onclick="navigateTo('dashboard')">✕</button>
+                </div>
+                <div id="ai-chat-box" class="ai-chat-box">
+                    <div class="ai-message">
+                        Hi! I am your structured voting assistant. I won't give you long paragraphs. What do you need help with?
+                    </div>
+                </div>
+                <div class="ai-input-area">
+                    <button class="ai-prompt-btn" onclick="askAI('What should I do next?')">What should I do next?</button>
+                    <button class="ai-prompt-btn" onclick="askAI('What if I don\'t have an ID?')">What if I don't have an ID?</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 5: Decision Simulator -->
+        <section id="simulator-screen">
+            <div class="glass-panel simulator-card">
+                <div class="simulator-header">
+                    <h2>🔮 Decision Simulator</h2>
+                    <button class="btn-close" onclick="navigateTo('dashboard')">✕</button>
+                </div>
+                <p style="margin-bottom: 2rem; color: var(--text-secondary);">Select a scenario to see potential consequences and solutions.</p>
+                
+                <div class="simulator-scenarios">
+                    <button class="scenario-btn" onclick="runSimulation('no_id')">"I plan to go without my ID"</button>
+                    <button class="scenario-btn" onclick="runSimulation('late')">"I might arrive 10 minutes after polls close"</button>
+                    <button class="scenario-btn" onclick="runSimulation('wrong_booth')">"I go to a booth near my office, not my home"</button>
+                </div>
+
+                <div id="simulation-result" class="simulation-result hidden">
+                    <!-- Results injected here -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

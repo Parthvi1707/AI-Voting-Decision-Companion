@@ -1,0 +1,623 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Color Palette */
+    --bg-base: #050508;
+    --bg-dark: #0a0b12;
+    --accent-neon-cyan: #00f3ff;
+    --accent-neon-blue: #2a52be;
+    --accent-neon-purple: #8a2be2;
+    
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --text-muted: rgba(255, 255, 255, 0.4);
+
+    /* Glassmorphism */
+    --glass-bg: rgba(15, 18, 30, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-highlight: rgba(255, 255, 255, 0.15);
+
+    /* Typography */
+    --font-family: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Fluid Animated Background */
+.bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 50%, var(--bg-dark), var(--bg-base));
+}
+
+.bg-animation::before,
+.bg-animation::after {
+    content: '';
+    position: absolute;
+    width: 150vw;
+    height: 150vh;
+    top: -25vh;
+    left: -25vw;
+    background: 
+        radial-gradient(ellipse at 50% 50%, rgba(42, 82, 190, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(138, 43, 226, 0.1) 0%, transparent 40%);
+    filter: blur(80px);
+    animation: flowBg 20s infinite alternate ease-in-out;
+    opacity: 0.7;
+}
+
+.bg-animation::after {
+    background: 
+        radial-gradient(ellipse at 20% 80%, rgba(0, 243, 255, 0.1) 0%, transparent 40%);
+    animation: flowBgReverse 25s infinite alternate ease-in-out;
+    opacity: 0.6;
+}
+
+@keyframes flowBg {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(10%, 10%) scale(1.1); }
+}
+
+@keyframes flowBgReverse {
+    0% { transform: translate(0, 0) scale(1.1); }
+    100% { transform: translate(-10%, -10%) scale(1); }
+}
+
+/* Utility Classes */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, #fff 0%, var(--text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.neon-glow {
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+
+/* Layout Containers */
+#app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+section {
+    display: none; /* Hidden by default, JS handles visibility */
+    width: 100%;
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+section.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Screen 1: Landing Page */
+#landing-screen {
+    text-align: center;
+    max-width: 800px;
+}
+
+.brand-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--accent-neon-cyan);
+    margin-bottom: 2rem;
+    letter-spacing: 0.5px;
+}
+
+.brand-badge .dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent-neon-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-neon-cyan);
+}
+
+h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -1px;
+}
+
+.subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    font-weight: 300;
+}
+
+/* Buttons */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #fff;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+    border: 1px solid var(--glass-highlight);
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+}
+
+.btn-primary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.btn-primary:hover::before {
+    transform: translateX(100%);
+}
+
+/* Screen 2: Profiling Structure */
+#profiling-screen {
+    width: 100%;
+    max-width: 600px;
+}
+
+.question-card {
+    padding: 3rem;
+    text-align: center;
+    width: 100%;
+}
+
+.question-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.btn-option {
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: var(--font-family);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-option:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--glass-highlight);
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    h1 { font-size: 2.5rem; }
+    .question-card { padding: 2rem; }
+    .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+/* --- Phase 2: Profiling & Dashboard Styles --- */
+
+/* Progress Bar */
+#progress-bar-container {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+#progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-neon-blue), var(--accent-neon-cyan));
+    transition: width 0.4s ease;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+
+/* Dashboard Grid */
+#dashboard-screen {
+    width: 100%;
+    max-width: 1000px;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.dashboard-card {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+}
+
+/* Readiness Score */
+.score-display {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.score-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(var(--accent-neon-cyan) 0%, transparent 0%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+    transition: background 1s ease;
+}
+
+.score-circle::before {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: var(--glass-bg);
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+}
+
+#score-text {
+    position: relative;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+
+.checklist {
+    list-style: none;
+    margin-top: auto;
+}
+
+.checklist li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.checklist li:last-child { border-bottom: none; }
+
+/* Alert Card */
+.alert-card {
+    border-color: rgba(255, 99, 71, 0.3);
+}
+
+.alert-card h3 .icon { color: #ff6347; }
+
+.missing-items {
+    list-style: none;
+}
+
+.missing-items li {
+    background: rgba(255, 99, 71, 0.1);
+    border-left: 3px solid #ff6347;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Timeline */
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.timeline-item {
+    display: flex;
+    gap: 1rem;
+    position: relative;
+}
+
+.timeline-marker {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent-neon-purple);
+    border: 3px solid var(--bg-base);
+    box-shadow: 0 0 10px var(--accent-neon-purple);
+    position: relative;
+    z-index: 1;
+    margin-top: 4px;
+}
+
+.timeline-content h4 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.timeline-content p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* --- Phase 3: Simulator, AI & Tools Styles --- */
+
+/* Quick Tools */
+.tools-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.tool-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: var(--font-family);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.tool-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--accent-neon-cyan);
+    transform: translateX(4px);
+}
+
+.tool-icon {
+    font-size: 1.25rem;
+}
+
+/* AI & Simulator Shared */
+.ai-card, .simulator-card {
+    width: 100%;
+    max-width: 600px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.ai-header, .simulator-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 1rem;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.btn-close:hover {
+    color: var(--text-primary);
+}
+
+/* AI Companion */
+.ai-chat-box {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    padding: 1.5rem;
+    min-height: 200px;
+    max-height: 400px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.ai-message {
+    background: rgba(0, 243, 255, 0.1);
+    border-left: 3px solid var(--accent-neon-cyan);
+    padding: 1rem;
+    border-radius: 0 12px 12px 12px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.ai-message.user {
+    background: rgba(255, 255, 255, 0.05);
+    border-left: none;
+    border-right: 3px solid var(--accent-neon-purple);
+    border-radius: 12px 0 12px 12px;
+    align-self: flex-end;
+}
+
+.ai-input-area {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ai-prompt-btn {
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    color: var(--text-secondary);
+    font-family: var(--font-family);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.ai-prompt-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Decision Simulator */
+.simulator-scenarios {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.scenario-btn {
+    padding: 16px;
+    background: rgba(138, 43, 226, 0.1);
+    border: 1px solid rgba(138, 43, 226, 0.3);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: var(--font-family);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.scenario-btn:hover {
+    background: rgba(138, 43, 226, 0.2);
+    border-color: var(--accent-neon-purple);
+}
+
+.simulation-result {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.simulation-result.hidden {
+    display: none;
+}
+
+.sim-consequence {
+    color: #ff6347;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 8px;
+}
+
+.sim-solution {
+    color: #00f3ff;
+    display: flex;
+    gap: 8px;
+}
+
+.dashboard-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
