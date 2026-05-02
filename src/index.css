@@ -1,0 +1,30 @@
+:root {
+  --bg-primary: #0B0F1A;
+  --bg-surface: #111827;
+  --action-violet: #7C3AED;
+  --accent-cyan: #22D3EE;
+  --status-success: #22C55E;
+  --status-warning: #F59E0B;
+  --status-critical: #EF4444;
+  --text-main: #E5E7EB;
+  --text-dim: #9CA3AF;
+  --glass-border: rgba(255, 255, 255, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ensure circular progress bar text is readable */
+.CircularProgressbar-text {
+  font-weight: 800;
+}
