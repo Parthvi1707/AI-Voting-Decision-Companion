@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { calculateWeightedScore } from '../utils/aiEngine';
 
 const initialRoadmap = [
   { id: 'analysis', title: "Analysis", desc: "System diagnosis complete.", status: "done" },
@@ -87,7 +88,7 @@ export const useStore = create(
           }));
           
           const completedCount = newHurdles.filter(h => h.completed).length;
-          const readinessScore = Math.round((completedCount / newHurdles.length) * 100);
+          const readinessScore = calculateWeightedScore(newHurdles);
           
           const estimatedTimeRemaining = newHurdles
             .filter(h => !h.completed)
@@ -132,8 +133,7 @@ export const useStore = create(
             h.id === id ? { ...h, completed: true } : h
           );
           
-          const completedCount = newHurdles.filter(h => h.completed).length;
-          const readinessScore = Math.round((completedCount / newHurdles.length) * 100);
+          const readinessScore = calculateWeightedScore(newHurdles);
 
           const newRoadmap = state.roadmapSteps.map(step => 
             step.id === id ? { ...step, status: 'done', desc: 'Step Verified' } : step

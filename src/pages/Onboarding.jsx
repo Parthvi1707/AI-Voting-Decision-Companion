@@ -132,8 +132,8 @@ export default function Onboarding() {
   const progressPercentage = ((currentStep + 1) / questions.length) * 100;
 
   return (
-    <OnboardingContainer>
-      <div className="bg-system">
+    <OnboardingContainer role="main" aria-label="Voter Onboarding Questionnaire">
+      <div className="bg-system" aria-hidden="true">
         <div className="glow-orb orb-saffron"></div>
         <div className="glow-orb orb-blue"></div>
       </div>
@@ -147,10 +147,10 @@ export default function Onboarding() {
           transition={{ duration: 0.3, ease: "easeInOut" }}
           style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
         >
-          <QuestionCard>
+          <QuestionCard role="region" aria-labelledby={`question-${currentStep}`}>
             <ProgressHeader>
               <StepText>Question {currentStep + 1} of {questions.length}</StepText>
-              <ProgressBar>
+              <ProgressBar role="progressbar" aria-valuenow={progressPercentage} aria-valuemin="0" aria-valuemax="100">
                 <ProgressFill 
                   initial={{ width: `${(currentStep / questions.length) * 100}%` }}
                   animate={{ width: `${progressPercentage}%` }}
@@ -159,16 +159,22 @@ export default function Onboarding() {
               </ProgressBar>
             </ProgressHeader>
 
-            <QuestionTitle>
+            <QuestionTitle id={`question-${currentStep}`}>
               {questions[currentStep].text}
             </QuestionTitle>
 
             <OptionsGrid>
-              <OptionButton onClick={() => handleAnswer(true)}>
-                <span>✅</span> Yes
+              <OptionButton 
+                onClick={() => handleAnswer(true)}
+                aria-label={`Yes to: ${questions[currentStep].text}`}
+              >
+                <span aria-hidden="true">✅</span> Yes
               </OptionButton>
-              <OptionButton onClick={() => handleAnswer(false)}>
-                <span>❌</span> No
+              <OptionButton 
+                onClick={() => handleAnswer(false)}
+                aria-label={`No to: ${questions[currentStep].text}`}
+              >
+                <span aria-hidden="true">❌</span> No
               </OptionButton>
             </OptionsGrid>
           </QuestionCard>

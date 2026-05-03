@@ -229,6 +229,7 @@ export default function AiOrb() {
               <button 
                 onClick={toggleAiPanel}
                 style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer' }}
+                aria-label="Close Chat"
               >
                 ✕
               </button>
@@ -264,10 +265,12 @@ export default function AiOrb() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                 placeholder="Ask me anything..."
+                aria-label="Chat Message Input"
               />
               <PrimaryButton 
                 onClick={() => handleSend()} 
                 style={{ padding: '0.5rem 1rem' }}
+                aria-label="Send Message"
               >
                 ➜
               </PrimaryButton>
@@ -276,11 +279,12 @@ export default function AiOrb() {
         )}
       </AnimatePresence>
 
-      <OrbToggle onClick={toggleAiPanel}>
-        <OrbCore>🧠</OrbCore>
+      <OrbToggle onClick={toggleAiPanel} aria-label="Toggle AI Guide" aria-expanded={aiContext.isOpen}>
+        <OrbCore aria-hidden="true">🧠</OrbCore>
         <OrbPulse
           animate={{ scale: [1, 2], opacity: [0.8, 0] }}
           transition={{ repeat: Infinity, duration: 3, ease: "easeOut" }}
+          aria-hidden="true"
         />
       </OrbToggle>
     </OrbContainer>

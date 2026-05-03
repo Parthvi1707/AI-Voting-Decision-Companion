@@ -15,14 +15,31 @@ export default function Landing() {
   const { userProfile, setUserProfile } = useStore();
   
   const [nameInput, setNameInput] = useState('');
+  const [error, setError] = useState('');
   const [showOverlay, setShowOverlay] = useState(!userProfile.isLoggedIn);
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (nameInput.trim()) {
-      setUserProfile(nameInput);
-      setShowOverlay(false);
+    setError('');
+    
+    if (!nameInput.trim()) {
+      setError('Please enter your name to continue.');
+      return;
     }
+    
+    if (nameInput.trim().length < 2) {
+      setError('Name must be at least 2 characters long.');
+      return;
+    }
+
+    const validation = useStore.getState().validateUser({ name: nameInput });
+    if (!validation.isValid) {
+      setError(validation.error);
+      return;
+    }
+
+    setUserProfile(nameInput);
+    setShowOverlay(false);
   };
 
   const handleGoogleLogin = () => {
@@ -144,11 +161,14 @@ export default function Landing() {
                         placeholder="Enter Your Name" 
                         maxLength="30" 
                         value={nameInput}
-                        onChange={(e) => setNameInput(e.target.value)}
+                        onChange={(e) => { setNameInput(e.target.value); setError(''); }}
                         required
+                        aria-invalid={!!error}
+                        aria-describedby={error ? "login-error" : undefined}
                       />
-                      <button type="submit" className="btn-primary-large">
-                          Start Experience <span className="arrow">→</span>
+                      {error && <p id="login-error" style={{ color: '#ff4d4d', fontSize: '0.85rem', marginTop: '0.5rem', textAlign: 'left' }}>{error}</p>}
+                      <button type="submit" className="btn-primary-large" aria-label="Start Experience">
+                          Start Experience <span className="arrow" aria-hidden="true">→</span>
                       </button>
                       <div className="login-divider"><span>or</span></div>
                       <button type="button" className="btn-secondary btn-google" onClick={handleGoogleLogin}>

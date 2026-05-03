@@ -1,27 +1,22 @@
+import { getCriticalBlocker, getEngineReasoning } from './aiEngine';
+
 /**
  * Intelligent System Reasoning Engine
- * Provides deterministic, logic-based explanations for system states.
  */
 export const getSystemReasoning = (state) => {
-  const { hurdles, readinessScore, userProfile } = state;
-  const uncompleted = hurdles.filter(h => !h.completed);
-
-  // 1. Why readiness score is what it is
-  const totalSteps = hurdles.length;
-  const completedCount = totalSteps - uncompleted.length;
-  const readinessReasoning = `Your score of ${readinessScore}% is calculated based on ${completedCount} of ${totalSteps} critical requirements being fully verified.`;
-
-  // 2. Why a blocker is prioritized (Deterministic: first uncompleted in order)
+  const { hurdles, readinessScore } = state;
+  const blocker = getCriticalBlocker(hurdles);
+  const readinessReasoning = `Your score of ${readinessScore}% is a weighted analysis of your registration, verification, and booth logistics status.`;
+  
   let priorityReasoning = "";
   let consequenceReasoning = "";
   
-  if (uncompleted.length > 0) {
-    const priority = uncompleted[0];
-    priorityReasoning = `We've prioritized '${priority.title}' because it represents the most immediate legal or logistical barrier to your participation.`;
-    consequenceReasoning = `If this remains unresolved, you face a high risk of: ${priority.impact.toLowerCase()}.`;
+  if (blocker) {
+    priorityReasoning = getEngineReasoning(state);
+    consequenceReasoning = `Impact: ${blocker.impact}. Failure to resolve this will result in critical friction during the voting process.`;
   } else {
-    priorityReasoning = "All critical blockers have been resolved.";
-    consequenceReasoning = "You are now eligible for a seamless voting experience.";
+    priorityReasoning = "All critical systems are optimized.";
+    consequenceReasoning = "Deployment phase reached. You are fully ready to participate.";
   }
 
   return {
@@ -37,29 +32,25 @@ export const getSystemReasoning = (state) => {
  */
 export const getAIInsights = (state) => {
   const { hurdles, readinessScore, userProfile } = state;
-  const uncompleted = hurdles.filter(h => !h.completed);
+  const blocker = getCriticalBlocker(hurdles);
   const reasoning = getSystemReasoning(state);
 
-  if (uncompleted.length === 0) {
+  if (!blocker) {
     return {
-      message: "You're 100% ready to make your voice heard!",
+      message: "Voter Optimization Complete!",
       reason: reasoning.consequenceReasoning,
-      suggestedAction: "Start Voting Simulation",
+      suggestedAction: "Launch Simulation",
       route: "/simulation",
       type: "success"
     };
   }
 
-  const priority = uncompleted[0];
-  const totalSteps = 5;
-  const currentStepIndex = hurdles.findIndex(h => h.id === priority.id);
-  const currentStepNumber = currentStepIndex + 1;
-  const journeyContext = `You are currently at Step ${currentStepNumber} of ${totalSteps}: ${priority.act.split(' ')[0]}.`;
+  const journeyContext = `Focusing on critical blocker: ${blocker.title}.`;
 
   let insight = {
     message: "",
     reason: "",
-    suggestedAction: priority.act,
+    suggestedAction: blocker.act,
     route: "/hurdles",
     type: "warning",
     journeyContext,
@@ -69,36 +60,26 @@ export const getAIInsights = (state) => {
     ]
   };
 
-  switch (priority.id) {
+  switch (blocker.id) {
     case 'registration':
-      insight.message = "You're at Step 1: Voter Registration.";
-      insight.reason = `${reasoning.priorityReasoning} This is the legal foundation of your journey. Without registration, you cannot vote.`;
-      insight.suggestedAction = "Register Now →";
+      insight.message = "Critical: Registration Missing";
+      insight.reason = reasoning.priorityReasoning;
+      insight.suggestedAction = "Resolve Registration →";
       break;
     case 'verification':
-      insight.message = "You've reached Step 2: List Verification.";
-      insight.reason = `${reasoning.consequenceReasoning} This step ensures your name is actually on the electoral roll so you aren't turned away.`;
-      insight.suggestedAction = "Check Voter List →";
+      insight.message = "Verification Required";
+      insight.reason = reasoning.priorityReasoning;
+      insight.suggestedAction = "Check Voter Roll →";
       break;
     case 'logistics':
-      insight.message = "Navigation Phase: Step 3 (Logistics).";
-      insight.reason = `Knowing your exact booth location is critical. ${reasoning.priorityReasoning}`;
-      insight.suggestedAction = "Locate Booth →";
-      break;
-    case 'documents':
-      insight.message = "Step 4: ID Preparation.";
-      insight.reason = `Strict identification is required for entry. ${reasoning.consequenceReasoning}`;
-      insight.suggestedAction = "Verify Documents →";
-      break;
-    case 'awareness':
-      insight.message = "The Final Mile: Step 5 (Awareness).";
-      insight.reason = `Confirming your local voting window is the last step to readiness. ${reasoning.consequenceReasoning}`;
-      insight.suggestedAction = "Confirm Schedule →";
+      insight.message = "Booth Location Unknown";
+      insight.reason = reasoning.priorityReasoning;
+      insight.suggestedAction = "Find My Booth →";
       break;
     default:
-      insight.message = `You're at Step ${currentStepNumber} of your election journey.`;
+      insight.message = "Next Action Identified";
       insight.reason = reasoning.priorityReasoning;
-      insight.suggestedAction = "Continue Journey →";
+      insight.suggestedAction = "Take Next Step →";
   }
 
   // Handle first-time voter edge case

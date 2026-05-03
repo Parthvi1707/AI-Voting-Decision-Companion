@@ -256,7 +256,7 @@ export default function Dashboard() {
               );
             })}
             <MicroInsight role="status" aria-label={`${estimatedTimeRemaining} minutes estimated time remaining`}>
-              ⏱ {estimatedTimeRemaining}m left
+              <span aria-hidden="true">⏱</span> {estimatedTimeRemaining}m left
             </MicroInsight>
           </MicroInsightsRow>
         </div>
@@ -285,7 +285,9 @@ export default function Dashboard() {
                   >
                     ⚠️
                   </UrgencyIcon>
-                  You're just {uncompletedHurdles.length} {uncompletedHurdles.length === 1 ? 'step' : 'steps'} away from being fully ready.
+                  <span aria-label={`You have ${uncompletedHurdles.length} steps remaining`}>
+                    You're just {uncompletedHurdles.length} {uncompletedHurdles.length === 1 ? 'step' : 'steps'} away from being fully ready.
+                  </span>
                 </>
               ) : (
                 "✅ All systems go! You're 100% prepared."
@@ -322,9 +324,11 @@ export default function Dashboard() {
           marginBottom: '1rem',
           border: '1px dashed var(--glass-border)'
         }}
+        role="button"
+        aria-label="Open Election Journey Guide"
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '1.5rem' }}>🧭</span>
+          <span style={{ fontSize: '1.5rem' }} aria-hidden="true">🧭</span>
           <div>
             <h4 style={{ margin: 0, fontSize: '1.1rem' }}>Election Journey Progress</h4>
             <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-dim)' }}>
