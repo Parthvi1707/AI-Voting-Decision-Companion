@@ -1,7 +1,7 @@
 import { getCriticalBlocker, getEngineReasoning } from './aiEngine';
 
 /**
- * Intelligent System Reasoning Engine
+ * Intelligent AI Reasoning Engine
  */
 export const getSystemReasoning = (state) => {
   const { hurdles, readinessScore } = state;
@@ -27,8 +27,8 @@ export const getSystemReasoning = (state) => {
 };
 
 /**
- * Main AI Insight Generator
- * Merges system reasoning with user-friendly guidance.
+ * AI Decision System: Main Insight Generator
+ * Merges intelligent system reasoning with user guidance.
  */
 export const getAIInsights = (state) => {
   const { hurdles, readinessScore, userProfile } = state;

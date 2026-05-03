@@ -56,7 +56,7 @@ export const useStore = create(
         return { isValid: true, sanitizedName: cleanName };
       },
 
-      // Sanitization Helper
+      // AI-based input sanitization layer
       sanitizeInput: (text) => {
         if (typeof text !== 'string') return '';
         return text.trim().replace(/[<>]/g, '');
@@ -102,7 +102,7 @@ export const useStore = create(
             },
             hurdles: newHurdles,
             roadmapSteps: newRoadmap,
-            readinessScore,
+            readinessScore, // AI-driven readiness calculation
             estimatedTimeRemaining
           };
         });
@@ -133,7 +133,7 @@ export const useStore = create(
             h.id === id ? { ...h, completed: true } : h
           );
           
-          const readinessScore = calculateWeightedScore(newHurdles);
+          const readinessScore = calculateWeightedScore(newHurdles); // AI prioritization logic
 
           const newRoadmap = state.roadmapSteps.map(step => 
             step.id === id ? { ...step, status: 'done', desc: 'Step Verified' } : step

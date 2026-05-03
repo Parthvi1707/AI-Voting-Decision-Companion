@@ -1,12 +1,12 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import Onboarding from '../pages/Onboarding';
+import Onboarding from '../src/pages/Onboarding';
 import { BrowserRouter } from 'react-router-dom';
-import * as useStoreModule from '../store/useStore';
+import * as useStoreModule from '../src/store/useStore';
 
 const submitOnboardingMock = vi.fn();
 
-vi.mock('../store/useStore', () => ({
+vi.mock('../src/store/useStore', () => ({
   useStore: vi.fn((selector) => {
     const state = {
       submitOnboarding: submitOnboardingMock,

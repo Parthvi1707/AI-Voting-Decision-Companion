@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import Dashboard from '../pages/Dashboard';
+import Dashboard from '../src/pages/Dashboard';
 import { BrowserRouter } from 'react-router-dom';
-import * as useStoreModule from '../store/useStore';
+import * as useStoreModule from '../src/store/useStore';
 
 // Mock the store
-vi.mock('../store/useStore', () => ({
+vi.mock('../src/store/useStore', () => ({
   useStore: vi.fn((selector) => {
     const state = {
       readinessScore: 70,

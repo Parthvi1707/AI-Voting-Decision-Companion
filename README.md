@@ -10,19 +10,23 @@ VoteSense AI is a premium, cinematic web application designed to simplify the vo
 - **Voting Simulator**: Practice the actual voting process in a risk-free, guided environment.
 - **Premium Cinematic UI**: High-fidelity visuals using GSAP and Framer Motion.
 
-## 🧠 AI Analysis System
+## 🤖 AI Analysis System
 
-VoteSense AI uses a rule-based intelligent decision engine to:
+VoteSense AI uses a rule-based intelligent decision engine to evaluate voter readiness.
 
-- **Analyze voter readiness**: Calculates a weighted score based on legal requirements.
-- **Detect critical blockers**: Identifies the most significant barrier to voting (e.g., missing registration).
-- **Prioritize next actions**: Recommends the most impactful steps first.
-- **Simulate real-world voting scenarios**: Provides logic-based feedback during the simulation phase.
+### Key Capabilities:
+- Calculates a readiness score based on user inputs
+- Detects critical blockers such as registration, verification, and booth awareness
+- Prioritizes actions for the user to complete
+- Simulates real-world voting scenarios
 
-### Scoring Logic:
-- **Registration**: 40% (Legal foundation)
-- **Verification**: 30% (Electoral roll status)
-- **Booth Info**: 30% (Logistical readiness)
+### How it works:
+The system analyzes user responses and assigns weighted scores:
+- Registration → 40%
+- Verification → 30%
+- Booth Awareness → 30%
+
+Based on this, it dynamically generates personalized recommendations.
 
 ## 🛠 Tech Stack
 

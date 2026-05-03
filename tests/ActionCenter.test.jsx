@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import ActionCenter from '../pages/ActionCenter';
+import ActionCenter from '../src/pages/ActionCenter';
 import { BrowserRouter } from 'react-router-dom';
-import * as useStoreModule from '../store/useStore';
+import * as useStoreModule from '../src/store/useStore';
 
-vi.mock('../store/useStore', () => ({
+vi.mock('../src/store/useStore', () => ({
   useStore: vi.fn((selector) => {
     const state = {
       hurdles: [
