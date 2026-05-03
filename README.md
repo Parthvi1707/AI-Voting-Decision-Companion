@@ -71,9 +71,4 @@ The application follows a **Premium Dark Aesthetic** with "Liquid Glass" effects
 
 ---
 
-## 📄 License
-This project is licensed under the MIT License.
-
----
-
 Built with ❤️ for a more informed democracy.
