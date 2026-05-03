@@ -7,6 +7,7 @@ import RoadmapPage from './pages/RoadmapPage';
 import HurdlesPage from './pages/HurdlesPage';
 import ActionCenter from './pages/ActionCenter';
 import Simulation from './pages/Simulation';
+import ElectionGuide from './pages/ElectionGuide';
 import { useStore } from './store/useStore';
 
 function ProtectedRoute({ children }) {
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/hurdles" element={<HurdlesPage />} />
           <Route path="/action-center" element={<ActionCenter />} />
           <Route path="/simulation" element={<Simulation />} />
+          <Route path="/guide" element={<ElectionGuide />} />
         </Route>
       </Routes>
     </Router>

@@ -51,52 +51,63 @@ export const getAIInsights = (state) => {
   }
 
   const priority = uncompleted[0];
+  const totalSteps = 5;
+  const currentStepIndex = hurdles.findIndex(h => h.id === priority.id);
+  const currentStepNumber = currentStepIndex + 1;
+  const journeyContext = `You are currently at Step ${currentStepNumber} of ${totalSteps}: ${priority.act.split(' ')[0]}.`;
+
   let insight = {
     message: "",
     reason: "",
     suggestedAction: priority.act,
     route: "/hurdles",
-    type: "warning"
+    type: "warning",
+    journeyContext,
+    actions: [
+      { label: "Open Guide", route: "/guide" },
+      { label: "Take Next Step", route: "/hurdles" }
+    ]
   };
 
   switch (priority.id) {
     case 'registration':
-      insight.message = "You're just a few steps away from being fully ready.";
-      insight.reason = `${reasoning.priorityReasoning} Without registration, you are legally ineligible to vote.`;
+      insight.message = "You're at Step 1: Voter Registration.";
+      insight.reason = `${reasoning.priorityReasoning} This is the legal foundation of your journey. Without registration, you cannot vote.`;
       insight.suggestedAction = "Register Now →";
       break;
     case 'verification':
-      insight.message = "Your name might not be verified in the voter list yet.";
-      insight.reason = `${reasoning.consequenceReasoning} Verification ensures your entry at the booth is guaranteed.`;
+      insight.message = "You've reached Step 2: List Verification.";
+      insight.reason = `${reasoning.consequenceReasoning} This step ensures your name is actually on the electoral roll so you aren't turned away.`;
       insight.suggestedAction = "Check Voter List →";
       break;
     case 'logistics':
-      insight.message = "We need to identify your assigned polling booth.";
-      insight.reason = `${reasoning.priorityReasoning} ${reasoning.consequenceReasoning}`;
+      insight.message = "Navigation Phase: Step 3 (Logistics).";
+      insight.reason = `Knowing your exact booth location is critical. ${reasoning.priorityReasoning}`;
       insight.suggestedAction = "Locate Booth →";
       break;
     case 'documents':
-      insight.message = "Ensure you have a valid ID ready for the booth.";
-      insight.reason = `Valid identification is mandatory. ${reasoning.consequenceReasoning}`;
+      insight.message = "Step 4: ID Preparation.";
+      insight.reason = `Strict identification is required for entry. ${reasoning.consequenceReasoning}`;
       insight.suggestedAction = "Verify Documents →";
       break;
     case 'awareness':
-      insight.message = "Let's confirm your local voting date and time.";
-      insight.reason = `Election windows are strict. ${reasoning.consequenceReasoning}`;
+      insight.message = "The Final Mile: Step 5 (Awareness).";
+      insight.reason = `Confirming your local voting window is the last step to readiness. ${reasoning.consequenceReasoning}`;
       insight.suggestedAction = "Confirm Schedule →";
       break;
     default:
-      insight.message = `You're just ${uncompleted.length} ${uncompleted.length === 1 ? 'step' : 'steps'} away from being fully ready.`;
+      insight.message = `You're at Step ${currentStepNumber} of your election journey.`;
       insight.reason = reasoning.priorityReasoning;
-      insight.suggestedAction = "Fix This Now →";
+      insight.suggestedAction = "Continue Journey →";
   }
 
   // Handle first-time voter edge case
   if (userProfile.isFirstTimeVoter && readinessScore > 80) {
-    insight.message = "You're almost there! Since it's your first time, let's practice.";
-    insight.reason = "The simulator will walk you through exactly what happens once you enter the booth, reducing anxiety and errors.";
+    insight.message = "You've cleared the guide! Time to practice.";
+    insight.reason = "You're at the final simulation stage. Let's walk through exactly what happens at the booth.";
     insight.suggestedAction = "Start Simulation →";
     insight.route = "/simulation";
+    insight.actions = [{ label: "Review Guide", route: "/guide" }, { label: "Launch Sim", route: "/simulation" }];
   }
 
   return insight;

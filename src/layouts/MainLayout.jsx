@@ -55,6 +55,7 @@ export default function MainLayout() {
       <Sidebar>
         <h2 style={{ paddingLeft: '1.5rem', marginBottom: '2rem', color: 'white' }}>VoteSense AI</h2>
         <StyledNavLink to="/dashboard">Dashboard</StyledNavLink>
+        <StyledNavLink to="/guide">🧭 Election Guide</StyledNavLink>
         <StyledNavLink to="/roadmap">Roadmap</StyledNavLink>
         <StyledNavLink to="/hurdles">Critical Hurdles</StyledNavLink>
         <StyledNavLink to="/action-center">Action Center</StyledNavLink>

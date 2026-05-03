@@ -69,7 +69,13 @@ export default function Simulation() {
           <p style={{ color: 'var(--text-dim)', fontSize: '1.2rem', marginBottom: '3rem' }}>
             You have successfully completed the Voting Day Simulation. You are fully prepared to cast your vote.
           </p>
-  const progress = (currentStep / 3) * 100;
+          <PrimaryButton onClick={() => navigate('/dashboard')}>
+            Return to Dashboard
+          </PrimaryButton>
+        </GlassCard>
+      </PageContainer>
+    );
+  }
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', paddingBottom: '4rem' }}>

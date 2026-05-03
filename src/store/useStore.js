@@ -162,17 +162,6 @@ export const useStore = create(
       completeSimulation: () => set((state) => ({
         simulationState: { ...state.simulationState, completed: true }
       })),
-
-        roadmapSteps: initialRoadmap,
-        simulationState: { currentStep: 0, completed: false },
-        aiContext: {
-          isOpen: false,
-          chatHistory: [
-            { role: 'bot', content: "Hi! I'm your AI guide. Need help navigating the election process?" }
-          ],
-          priorityAction: null
-        }
-      })
     }),
     {
       name: 'votesense-storage', // unique name for localStorage key

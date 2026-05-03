@@ -29,6 +29,14 @@ export default function Landing() {
     setUserProfile("Google User");
     setShowOverlay(false);
   };
+  useEffect(() => {
+    if (showOverlay) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [showOverlay]);
 
   useGSAP(() => {
     if (showOverlay) return; // Wait until overlay is gone to animate map

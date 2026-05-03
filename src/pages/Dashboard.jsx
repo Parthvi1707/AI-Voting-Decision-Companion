@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../store/useStore';
@@ -308,6 +308,34 @@ export default function Dashboard() {
           </PrimaryButton>
         </HeroInfo>
       </HeroSection>
+
+      <GlassCard 
+        onClick={() => navigate('/guide')}
+        style={{ 
+          cursor: 'pointer', 
+          padding: '2rem', 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          background: 'rgba(255, 255, 255, 0.02)',
+          marginTop: '-2rem',
+          marginBottom: '1rem',
+          border: '1px dashed var(--glass-border)'
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <span style={{ fontSize: '1.5rem' }}>🧭</span>
+          <div>
+            <h4 style={{ margin: 0, fontSize: '1.1rem' }}>Election Journey Progress</h4>
+            <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-dim)' }}>
+              {uncompletedHurdles.length > 0 
+                ? `You are at: Step ${5 - uncompletedHurdles.length + 1} / 5 (${uncompletedHurdles[0].title.split(' ')[0]})`
+                : "You have completed all 5 steps of the journey!"}
+            </p>
+          </div>
+        </div>
+        <span style={{ color: 'var(--accent-cyan)', fontWeight: 700 }}>Open Guide →</span>
+      </GlassCard>
 
       <AiCommandCard role="complementary" aria-label="AI Insights and Recommendations">
         <AiEngineHeader>
