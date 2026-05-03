@@ -8,6 +8,7 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 import { getAIInsights } from '../utils/aiAssistant';
+import { getCriticalIssues, getPriorityAction } from '../utils/aiEngine';
 
 const DashboardGrid = styled.div`
   display: grid;
@@ -190,6 +191,15 @@ export default function Dashboard() {
   // Memoize deterministic computations
   const insights = useMemo(() => getAIInsights(state), [state]);
   const uncompletedHurdles = useMemo(() => (hurdles || []).filter(h => !h.completed), [hurdles]);
+  
+  // AI-driven issue detection and prioritization
+  const aiIssues = useMemo(() => getCriticalIssues({
+    isRegistered: hurdles.find(h => h.id === 'registration')?.completed,
+    isVerified: hurdles.find(h => h.id === 'verification')?.completed,
+    knowsBooth: hurdles.find(h => h.id === 'logistics')?.completed,
+  }), [hurdles]);
+  
+  const topPriority = useMemo(() => getPriorityAction(aiIssues), [aiIssues]);
 
   useEffect(() => {
     let start = 0;
@@ -349,6 +359,9 @@ export default function Dashboard() {
         <h3 style={{ fontSize: '1.8rem', marginBottom: '1.2rem', color: '#fff' }}>
           {insights.message}
         </h3>
+        <p style={{ color: 'var(--accent-cyan)', marginBottom: '1rem', fontWeight: 600 }}>
+          AI Priority Action: {topPriority}
+        </p>
         
         <TypingText
           initial={{ opacity: 0, y: 10 }}

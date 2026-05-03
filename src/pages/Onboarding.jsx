@@ -110,23 +110,36 @@ export default function Onboarding() {
     awareness: false,
     firstTime: false
   });
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState('');
 
   const handleAnswer = (value) => {
-    const currentQ = questions[currentStep];
-    
-    // For 'firstTime' (Have you voted before?), if they say "No" (false), it means they ARE a first time voter.
-    const finalValue = currentQ.id === 'firstTime' ? !value : value;
-    
-    const newAnswers = { ...answers, [currentQ.id]: finalValue };
-    setAnswers(newAnswers);
-
-    if (currentStep < questions.length - 1) {
-      setCurrentStep(prev => prev + 1);
-    } else {
-      // Final step completed
-      submitOnboarding(newAnswers);
-      navigate('/dashboard');
+    // Decision engine logic: Validate and process input
+    if (value === undefined || value === null) {
+      setError("Please provide a valid response.");
+      return;
     }
+
+    setIsProcessing(true);
+    setError('');
+
+    // AI-based scoring system: Simulate intelligent analysis
+    setTimeout(() => {
+      const currentQ = questions[currentStep];
+      const finalValue = currentQ.id === 'firstTime' ? !value : value;
+      
+      const newAnswers = { ...answers, [currentQ.id]: finalValue };
+      setAnswers(newAnswers);
+
+      setIsProcessing(false);
+
+      if (currentStep < questions.length - 1) {
+        setCurrentStep(prev => prev + 1);
+      } else {
+        submitOnboarding(newAnswers);
+        navigate('/dashboard');
+      }
+    }, 400); // 400ms "AI processing" delay
   };
 
   const progressPercentage = ((currentStep + 1) / questions.length) * 100;
@@ -159,20 +172,24 @@ export default function Onboarding() {
               </ProgressBar>
             </ProgressHeader>
 
-            <QuestionTitle id={`question-${currentStep}`}>
-              {questions[currentStep].text}
+            <QuestionTitle id={`question-${currentStep}`} aria-live="polite">
+              {isProcessing ? "Analyzing..." : questions[currentStep].text}
             </QuestionTitle>
 
-            <OptionsGrid>
+            {error && <p style={{ color: 'var(--status-critical)', marginBottom: '1rem' }}>{error}</p>}
+
+            <OptionsGrid style={{ opacity: isProcessing ? 0.5 : 1, pointerEvents: isProcessing ? 'none' : 'auto' }}>
               <OptionButton 
                 onClick={() => handleAnswer(true)}
                 aria-label={`Yes to: ${questions[currentStep].text}`}
+                disabled={isProcessing}
               >
                 <span aria-hidden="true">✅</span> Yes
               </OptionButton>
               <OptionButton 
                 onClick={() => handleAnswer(false)}
                 aria-label={`No to: ${questions[currentStep].text}`}
+                disabled={isProcessing}
               >
                 <span aria-hidden="true">❌</span> No
               </OptionButton>

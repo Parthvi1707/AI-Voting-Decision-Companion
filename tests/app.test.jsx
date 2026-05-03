@@ -9,7 +9,9 @@ vi.mock('../src/store/useStore', () => ({
     const state = {
       userProfile: { isLoggedIn: true, name: 'Test' },
       readinessScore: 50,
-      hurdles: [],
+      hurdles: [
+        { id: 'registration', title: 'Registration', completed: false }
+      ],
       roadmapSteps: []
     };
     return selector ? selector(state) : state;
@@ -23,7 +25,7 @@ test('app renders without crashing', async () => {
   expect(elements.length).toBeGreaterThan(0)
 })
 
-test('dashboard shows readiness', async () => {
+test('dashboard shows readiness text', async () => {
   render(<App />)
   // Wait for lazy components to load
   const elements = await screen.findAllByText(/ready/i)

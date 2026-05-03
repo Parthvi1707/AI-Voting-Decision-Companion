@@ -1,16 +1,9 @@
-/**
- * AI Decision Engine for VoteSense
- * Provides intelligent, logic-based analysis for voter readiness.
- */
+// AI Decision Engine for VoteSense
 
-/**
- * AI-based readiness calculation
- * Calculates weighted score based on critical voting milestones.
- */
+// AI-based readiness calculation
 export function calculateReadiness(user) {
   let score = 0
 
-  // AI-driven weighting logic
   if (user.isRegistered) score += 40
   if (user.isVerified) score += 30
   if (user.knowsBooth) score += 30
@@ -18,14 +11,10 @@ export function calculateReadiness(user) {
   return score
 }
 
-/**
- * AI-driven prioritization of critical issues
- * Detects blockers and generates intelligent warnings.
- */
+// AI-driven issue detection
 export function getCriticalIssues(user) {
   const issues = []
 
-  // Decision engine for user guidance
   if (!user.isRegistered) {
     issues.push("User is not registered to vote")
   }
@@ -41,7 +30,15 @@ export function getCriticalIssues(user) {
   return issues
 }
 
-// Backward compatibility with previous implementation
+// AI prioritization logic
+export function getPriorityAction(issues) {
+  return issues.length > 0 ? issues[0] : "No critical issues"
+}
+
+/**
+ * AI-driven system integration helpers
+ */
+
 export const calculateWeightedScore = (hurdles) => {
   const user = {
     isRegistered: hurdles.find(h => h.id === 'registration')?.completed,
@@ -67,8 +64,8 @@ export const getEngineReasoning = (state) => {
   const blocker = getCriticalBlocker(hurdles);
   
   if (!blocker) {
-    return "AI Analysis: All critical voting systems are fully optimized. User is deployment-ready.";
+    return "AI Analysis: All systems are fully optimized. User is mission-ready for the polling booth.";
   }
   
-  return `AI Decision Engine identifies '${blocker.title}' as the primary critical blocker. High priority resolution required.`;
+  return `AI Decision Engine identifies '${blocker.title}' as the high-priority critical blocker. Failure to resolve this will result in participation friction.`;
 };

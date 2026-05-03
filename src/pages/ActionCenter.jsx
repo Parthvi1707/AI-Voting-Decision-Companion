@@ -51,7 +51,11 @@ export default function ActionCenter() {
           <p style={{ color: 'var(--text-dim)', fontSize: '1.2rem', marginBottom: '3rem' }}>
             Complete this to reach {Math.min(100, readinessScore + Math.round(100 / hurdles.length))}% readiness.
           </p>
-          <PrimaryButton style={{ margin: '0 auto', fontSize: '1.2rem', padding: '1rem 2.5rem' }} onClick={handleResolve}>
+          <PrimaryButton 
+            style={{ margin: '0 auto', fontSize: '1.2rem', padding: '1rem 2.5rem' }} 
+            onClick={handleResolve}
+            aria-label={`Resolve ${nextAction.act} now`}
+          >
             Resolve Now →
           </PrimaryButton>
         </RecommendationCard>

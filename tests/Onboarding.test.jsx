@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import Onboarding from '../src/pages/Onboarding';
 import { BrowserRouter } from 'react-router-dom';
@@ -44,6 +44,6 @@ describe('Onboarding Component', () => {
     expect(await screen.findByText(/Have you voted before?/i)).toBeInTheDocument();
     fireEvent.click(screen.getByLabelText(/Yes to: Have you voted before?/i));
 
-    expect(submitOnboardingMock).toHaveBeenCalled();
+    await waitFor(() => expect(submitOnboardingMock).toHaveBeenCalled(), { timeout: 2000 });
   });
 });
